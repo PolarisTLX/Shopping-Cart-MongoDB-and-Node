@@ -29,3 +29,18 @@ also included jQuery into the HTML <body>:
 
 also included font-awesome in HTML <head>:
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+TO GET MongoDB UP AND RUNNING:
+-Need to open two instances of Command Prompt. Might need to run them as administrator by right click on them when opening
+-Change directory to be: C:\Program Files\MongoDB 2.6 Standard Legacy\bin
+-Make sure that there is a folder directory on your PC that is C:\data\db.
+-In one of the command windows, type:  mongod
+
+(NOT THIS TIME??? )-in the second window type:  mongo
+
+then install mongoose with  npm install --save mongoose
+
+//the port required for mongoose connect (which you add in "app.js":   mongoose.connect('localhost:27017/shopping');)
+//is found near the top of the text which comes after typing "mongod" in that CP windows
+//in this case it was   " port=27017 "
