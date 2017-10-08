@@ -71,6 +71,8 @@ router.post('/checkout', function(req, res, next) {
   //re-create the cart:
   var cart = new Cart(req.session.cart);
 
+
+//error possibly in section below:
   var stripe = require("stripe")(
     //stripe.com test secret/private key:
     "sk_test_GAkkE0pgYnVmYyzfURkChCkt"
