@@ -3,6 +3,7 @@ var router = express.Router();
 var Cart = require('../models/cart');
 
 var Product = require('../models/product');
+var Order = require('../models/order');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -72,7 +73,8 @@ router.post('/checkout', function(req, res, next) {
   var cart = new Cart(req.session.cart);
 
 
-//error possibly in section below:
+//error possibly in section below: (video "#15 or #16")
+//they are 19min and 15min videos
   var stripe = require("stripe")(
     //stripe.com test secret/private key:
     "sk_test_GAkkE0pgYnVmYyzfURkChCkt"
@@ -88,9 +90,22 @@ router.post('/checkout', function(req, res, next) {
           req.flash('error', err.message);
           return res.redirect('/checkout');
         }
-        req.flash('success', 'Successfully brought product!');
-        req.cart = null;
-        res.redirect('/');
+        //creating order to be saved to database to have shipping addres
+        //and keep track of a user's order history:
+        var order = new Order({
+          user: req.user,
+          cart: cart,
+          address: req.body.address,
+          name: req.body.name,
+          paymentId: charge.id
+          //req.body is where express stroes the values sent with a POST request
+        });
+        order.save(function(err, result) {
+          //need to implement an if for the err situations (even if rare)
+          req.flash('success', 'Successfully brought product!');
+          req.session.cart = null;
+          res.redirect('/');
+        });
   });
 });
 

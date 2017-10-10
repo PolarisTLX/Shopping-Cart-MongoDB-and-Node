@@ -1,8 +1,12 @@
 //from the stripe website in my test account:
-var stripe = Stripe('pk_test_u1QMmOOZllAMGaVz4N54Pd30');
+//(DOES NOT WORKING! Possibly due to being V3)
+//var stripe = Stripe('pk_test_u1QMmOOZllAMGaVz4N54Pd30');
+//from the github repo, with my own key:
+//works, possibly due to this veing V2 process 
+Stripe.setPublishableKey('pk_test_u1QMmOOZllAMGaVz4N54Pd30');
 
 //selecting the form with jQuery using the id from checkout.hbs?
-var $form = $('#checkout-form')
+var $form = $('#checkout-form');
 
 //jQuery listener method that will get executed when form is submitted:
 $form.submit(function(event) {
@@ -12,6 +16,7 @@ $form.submit(function(event) {
   $form.find('button').prop('disabled', true);
   //stripe card code from the website
   //(different than tutorial, likely due to V2 versus newer V3)
+  //this section may be a source of bug / errors:
   Stripe.card.createToken({
     number: $('#card-number').val(),
     cvc: $('#card-cvc').val(),
@@ -34,7 +39,7 @@ function stripeResponseHandler(status, response) {
       //Get token ID:
       var token = response.id;
       //insert token into the form so it gets submitted to the server:
-      $form.append($('<input type="hidden name="stripeToken" />').val(token));
+      $form.append($('<input type="hidden" name="stripeToken" />').val(token));
       //submit the form:
       $form.get(0).submit();
   }
